@@ -49,5 +49,9 @@
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
 	
+	<!-- JS by Shanmu Shan-->
+    <script src="../build/js/my.js"></script>
+	
+	
   </body>
 </html>

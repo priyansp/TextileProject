@@ -169,7 +169,6 @@ class DB {
         }
 
         $sql = "UPDATE {$table} SET {$set} WHERE {$where} = {$equal}";
-
         if(!$this->query($sql, $fields)->error()) {
             return true;
         }

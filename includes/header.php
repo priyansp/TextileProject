@@ -1,3 +1,6 @@
+<?php
+require_once '../core/init.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,6 +30,8 @@
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
+    <!-- CSS by Shanmu -->
+    <link href="../build/css/my.css" rel="stylesheet">
   </head>
 
   <body class="nav-md">
@@ -53,15 +58,23 @@
                       <li><a href="index3.html">Dashboard3</a></li>
                     </ul>
                   </li>
+                  <li><a><i class="fa fa-edit"></i>Dyes Management<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="dyes_modify.php">Modify Dyes Stock</a></li>
+                      <li><a href="dyes_status.php">Dyes Status</a></li>
+                      <li><a href="dyes_transaction_history.php">Dyes Transaction History</a></li>
+                    </ul>
+                  </li>
                   <li><a><i class="fa fa-edit"></i>Vendor Management<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="form.html">Add</a></li>
+                      <li><a href="vendor_add.php">Add Vendor</a></li>
+                      <li><a href="vendor_edit.php">Edit Vendor</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-edit"></i>Product Management<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="form.html">Add Product</a></li>
-                      <li><a href="form.html">Add Category</a></li>
+                      <li><a href="product_add.php">Add Product</a></li>
+                      <li><a href="category_add.php">Add Category</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>

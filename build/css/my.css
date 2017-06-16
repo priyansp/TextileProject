@@ -1,0 +1,11 @@
+.select_list_error{
+	display: none;
+	font-size: 14px;
+}
+.select_errored{
+	background: rgba(226, 68, 20, 0.13) !important;
+}
+
+.max_qty{
+	display: none;
+}

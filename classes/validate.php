@@ -11,32 +11,36 @@ class validate{
 	public function check($source,$items = array()){
 		foreach ($items as $item => $rules) {
 			foreach ($rules as $rule => $rule_value) {
-				
 				$value = $source[$item];
-
 				if($rule === 'required' && empty($value)){
-					$this->addError("{$item} is required");
+					$this->addError($item,"{$item} is required");
 				}else if(!empty($value)){
 					switch($rule){
 					case 'min':
 						if(strlen($value) < $rule_value){
-							$this->addError("{$item} must be minimum of {$rule_value}");
+							$this->addError($item,"{$item} must be minimum of {$rule_value}");
 						}
 					break;
 					case 'max':
 						if(strlen($value) > $rule_value){
-							$this->addError("{$item} must be maximum of {$rule_value}");
+							$this->addError($item,"{$item} must be maximum of {$rule_value}");
 						}
 					break;
 					case 'match':
 						if($value != $source[$rule_value]){
-							$this->addError("{$item} does not match {$rule_value}");
+							$this->addError($item,"{$item} does not match {$rule_value}");
+						}
+					break;
+                    case 'shouldnt_match':
+						if($value === $rule_value){
+							$this->addError($item,"Choose a Value for {$item} ");
 						}
 					break;
 					case 'unique':
-						$check = $this->_db->get($rule_value,array($item,'=',$value));
+                        $exploded_values=explode(",",$rule_value);
+						$check = $this->_db->get($exploded_values[0],array($exploded_values[1],'=',$value));
 						if($check->count()){
-							$this->addError("{$item} already exists!");
+							$this->addError($item,"{$item} already exists!");
 						}
 					break;
 					}
@@ -51,8 +55,8 @@ class validate{
 	}
 
 
-	private function addError($error){
-		$this->_error[] = $error;
+	private function addError($key,$error){
+		$this->_error[$key] = $error;
 	}
 
 	public function error(){
@@ -62,5 +66,14 @@ class validate{
 	public function passed(){
 		return $this->_passes;
 	}
+    
+    public function addFlash($flash_key){
+        $error_string="<ul class='validation_error'>";
+        foreach ($this->_error as $key=>$value){
+            $error_string=$error_string . "<li>${value}</br></li>";
+        }
+        $error_string.="</ul>";
+        session::flash($flash_key,$error_string);
+    }
 
 }

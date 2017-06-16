@@ -20,22 +20,11 @@ $GLOBALS['config'] = array(
  );
 
 spl_autoload_register(function($class){
-	if(file_exists('classes/' .$class.'.php')){
-	require_once 'classes/' .$class.'.php';}
+	if(file_exists('../classes/' .$class.'.php')){
+	require_once '../classes/' .$class.'.php';}
 	else{
 		return false;
 	}
 });
-require_once 'functions/sanitize.php';
-if(cookies::exists(config::get('remember/cookie_name')) && !session::exists(config::get('session/session_name'))){
-	$hash = cookies::get(config::get('remember/cookie_name'));
-	$hashcheck = DB::getInstance()->get('user_sessions',array('hash', '=',$hash));
-
-	if($hashcheck->count()){
-		$user = new user($hashcheck->first()->user_id);
-		$user->login();
-	}
-
-
-}
+require_once '../functions/sanitize.php';
 ?>
