@@ -9,14 +9,22 @@ if(input::exists()){
 			),
             'Category' => array(
 				'shouldnt_match' =>'not_selected',
-			)
+			),
+            'Vendor' => array(
+				'shouldnt_match' =>'not_selected',
+			),
+            'Reorder-Qty' => array(
+				'required' => true,
+			),
     ));
     if($validation->passed()){
         $db=DB::getInstance();
         if($db->insert('product',array(
         'product_name' => input::get('Product-Name'),
         'category_id' => input::get('Category'),
-            
+        'vendor_id'=>input::get('Vendor'),
+        'reorder_qty'=>input::get('Reorder-Qty'),
+        'quantity'=>0
         ))){
             session::flash('product_add_success','Product has been added successfully');
             redirect::to('../pages/product_add.php');

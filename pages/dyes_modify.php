@@ -1,8 +1,6 @@
 <?php
 require '../includes/header.php';
 $db = DB::getInstance();
-$vendor = $db->query_assoc("select vendor_id,vendor_name from vendors order by vendor_name;");
-$vendor = $vendor->results();
 $product = $db->query_assoc("select product_id,product_name from product order by product_name;");
 $product = $product->results();
 ?>
@@ -79,25 +77,21 @@ require '../includes/footer.php';
 ?>
 <script>
     var products=<?php echo json_encode($product);?>;
-    var vendors=<?php echo json_encode($vendor);?>;
     var form_html="";
-    var vendor_select="<div class='col-md-3 col-sm-4 col-xs-12'>\n<select name='Vendor-List[]' class='form-control vendor_select'>\n<option                      value='not_selected' selected>Choose Vendor</option>\n";
     var product_select="<div class='col-md-3 col-sm-4 col-xs-12'>\n<select name='Product-List[]' class='form-control product_select'>\n<option value='not_selected' selected>Choose Product</option>\n";
     
     
     $(document).ready(function(){
-        for(i in vendors){
-            vendor_select+="<option value='"+vendors[i].vendor_id+"'>"+vendors[i].vendor_name+"</option>\n";
-        }
-        vendor_select+="</select></div>";
+        var today = moment().format('YYYY-MM-DD');
+        $("#Date").val(today);
         for(i in products){
             product_select+="<option value='"+products[i].product_id+"'>"+products[i].product_name+"</option>\n";
         }
         product_select+="</select></div>";
         
-        form_html="<div class='dynamic_form_content'>"+vendor_select+product_select+"<div class='col-md-2 col-sm-4 col-xs-12'><input name='Quantity-List[]' type='number' placeholder='Quantity Of' min='1' id='first-name' required='required' class='form-control col-md-7 col-xs-12 qty_number'></div><div class='col-md-2 col-sm-4 col-xs-12 max_qty'><input name='max_qty[]' type='text' class='form-control col-md-7 col-xs-12' value='0' readonly/></div><div class='col-md-1'><button type='button' class='btn btn-warning btn-block form_add'>Add</button></div><div class='col-md-1'><button type='button' class='btn btn-danger btn-block form_del'>Del</button></div></div>";
+        form_html="<div class='dynamic_form_content'>"+product_select+"<div class='col-md-3 col-sm-4 col-xs-12'><input name='Quantity-List[]' type='number' placeholder='Quantity Of' min='1' id='first-name' required='required' class='form-control col-md-7 col-xs-12 qty_number'></div><div class='col-md-2 col-sm-4 col-xs-12 max_qty'><input name='max_qty[]' type='text' class='form-control col-md-7 col-xs-12' value='0' readonly/></div><div class='col-md-1'><button type='button' class='btn btn-warning btn-block form_add'>Add</button></div><div class='col-md-1'><button type='button' class='btn btn-danger btn-block form_del'>Del</button></div><div class='form-group'></div></div>";
         
-        var first_form_element="<div class='dynamic_form_content'>"+vendor_select+product_select+"<div class='col-md-2 col-sm-4 col-xs-12'><input name='Quantity-List[]' type='number' placeholder='Quantity Of' min='1' required='required' class='form-control col-md-7 col-xs-12 qty_number'></div><div class='col-md-2 col-sm-4 col-xs-12 max_qty'><input name='max_qty[]'  type='text' class='form-control col-md-7 col-xs-12' value='0' readonly/></div><div class='col-md-2'><button type='button' class='btn btn-warning btn-block form_add'>Add</button></div></div>";
+        var first_form_element="<div class='dynamic_form_content'>"+product_select+"<div class='col-md-3 col-sm-4 col-xs-12'><input name='Quantity-List[]' type='number' placeholder='Quantity Of' min='1' required='required' class='form-control col-md-7 col-xs-12 qty_number'></div><div class='col-md-2 col-sm-4 col-xs-12 max_qty'><input name='max_qty[]'  type='text' class='form-control col-md-7 col-xs-12' value='0' readonly/></div><div class='col-md-2'><button type='button' class='btn btn-warning btn-block form_add'>Add</button></div><div class='form-group'></div></div>";
         
         $('#dynamic_form_container').append(first_form_element);    
     });
@@ -132,23 +126,14 @@ require '../includes/footer.php';
     $("#dynamic_form_container").on("change","select",function(){
         if($('input[type="radio"]:checked').val()==0){
             var parent=$(this).parents('.dynamic_form_content');
-            var vendor_id;
-            var product_id;
-            if($(this).hasClass('vendor_select')){
-                vendor_id=$(this).val();
-                product_id=$(parent).find('.product_select').val();
-            }
-            else{
-                product_id=$(this).val();
-                vendor_id=$(parent).find('.vendor_select').val();
-            }
-            if(product_id!='not_selected' && vendor_id!='not_selected'){
+            var product_id=$(this).val();
+            
+            if(product_id!='not_selected'){
                 $.post('../rest_calls/get_quantity.php',{
-                    vendor_id:vendor_id,
                     product_id:product_id
                 },function(data){
                     data=$.parseJSON(data);
-                    quantity=data.quantity;
+                    quantity=parseInt(data.quantity);
                     $(parent).find('.max_qty input').val(quantity);
                     $(parent).find('.qty_number').attr('max',quantity);
                     if(!quantity){

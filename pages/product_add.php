@@ -3,6 +3,8 @@ require '../includes/header.php';
 $db = DB::getInstance();
 $categories = $db->query_assoc("select * from category;");
 $categories = $categories->results();
+$vendors = $db->query_assoc("select * from vendors;");
+$vendors = $vendors->results();
 ?>
 <div class="right_col" role="main">
     <div class="row">
@@ -50,6 +52,27 @@ $categories = $categories->results();
                             ?>
                           </select>
                           <ul class="select_list_error parsley-errors-list"><li>Choose a value</li></ul>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="category">Choose Vendor</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select id="category" class="form-control" name="Vendor" required>
+                               <option value='not_selected' selected>Choose Vendor</option>
+                            <?php
+                                for($x=0;$x<sizeof($vendors);$x++){
+                                echo "<option value='".$vendors[$x]['vendor_id']."' >".$vendors[$x]['vendor_name']."</option>";
+                                } 
+                            ?>
+                          </select>
+                          <ul class="select_list_error parsley-errors-list"><li>Choose a value</li></ul>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-name">Re-Order Quantity<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" min="1" name="Reorder-Qty" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="ln_solid"></div>

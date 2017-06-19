@@ -31,7 +31,7 @@ require_once '../core/init.php';
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
     <!-- CSS by Shanmu -->
-    <link href="../build/css/my.css" rel="stylesheet">
+    <link href="../css/my.css" rel="stylesheet">
   </head>
 
   <body class="nav-md">
@@ -40,7 +40,7 @@ require_once '../core/init.php';
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a class="site_title"><i class="fa fa-paw"></i><span>Vedhannayagi Tex</span></a>
+              <a class="site_title"><i class="fa fa-paw"></i><span>Thirumala Colors</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -74,6 +74,7 @@ require_once '../core/init.php';
                   <li><a><i class="fa fa-edit"></i>Product Management<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="product_add.php">Add Product</a></li>
+                      <li><a href="product_edit.php">Edit Product</a></li>
                       <li><a href="category_add.php">Add Category</a></li>
                     </ul>
                   </li>
@@ -133,7 +134,7 @@ require_once '../core/init.php';
           <div class="nav_menu">
             <nav>
               <div class="nav">
-                  <h1 class="text-center">Sri Vedhanayagi Textiles</h1>
+                  <h1 class="text-center">Thirumala Colour Processors</h1>
               </div>
             </nav>
           </div>
