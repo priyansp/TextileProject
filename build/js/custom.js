@@ -2616,7 +2616,7 @@ if (typeof NProgress != 'undefined') {
 				  xkey: 'device',
 				  ykeys: ['geekbench'],
 				  labels: ['Geekbench'],
-				  barRatio: 0.4,
+				  barRatio: 0.8,
 				  barColors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
 				  xLabelAngle: 35,
 				  hideHover: 'auto',

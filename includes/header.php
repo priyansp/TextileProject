@@ -27,6 +27,12 @@ require_once '../core/init.php';
     <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
@@ -60,6 +66,7 @@ require_once '../core/init.php';
                   </li>
                   <li><a><i class="fa fa-edit"></i>Dyes Management<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+                      <li><a href="dyes_home.php">Dyes Home</a></li>      
                       <li><a href="dyes_modify.php">Modify Dyes Stock</a></li>
                       <li><a href="dyes_status.php">Dyes Status</a></li>
                       <li><a href="dyes_transaction_history.php">Dyes Transaction History</a></li>
@@ -76,6 +83,12 @@ require_once '../core/init.php';
                       <li><a href="product_add.php">Add Product</a></li>
                       <li><a href="product_edit.php">Edit Product</a></li>
                       <li><a href="category_add.php">Add Category</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-edit"></i>Lot Management<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="lot_add.php">Add Lot</a></li>
+                      <li><a href="lot_view.php">View Lot</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>

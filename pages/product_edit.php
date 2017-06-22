@@ -19,6 +19,7 @@ if(input::exists()){
             if($db->update_any('product','product_id',input::get('Product-ID'),array(
             'reorder_qty' => input::get('Reorder_Qty'),
             'category_id' => input::get('Category-ID'),
+            'rate' => input::get('Rate'),
             ))){
             session::flash('product_edit_success','Product has been updated successfully');
             }
@@ -106,6 +107,13 @@ if($is_present){
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="number" name="Reorder_Qty" class="form-control col-md-7 col-xs-12" value="<?php echo $result['reorder_qty'];?>">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Phone">Rate
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" name="Rate" step="0.01" class="form-control col-md-7 col-xs-12" value="<?php echo $result['rate'];?>">
                         </div>
                       </div>
                       <div class="form-group">

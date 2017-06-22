@@ -51,19 +51,24 @@ if(input::exists()){
     
     //Generating the Table for the Search
     $table_body="";
+    $total_cost="";
     for($i=0,$sno=1;$i<count($result);$i++,$sno++){
         $product_name=$result[$i]['product_name'];
         $vendor_name=$result[$i]['vendor_name'];
         $category_name=$result[$i]['category_name'];
         $quantity=$result[$i]['quantity'];
         $reorder_quantity=$result[$i]['reorder_qty'];
+        $rate=$result[$i]['rate'];
+        $amount=$result[$i]['rate']*$result[$i]['quantity'];
+        $total_cost+=$amount;
         $table_body.="<tr ";
         if($quantity<=$reorder_quantity){
         $table_body.="class='make_red'";
         }
-        $table_body.="><td>${sno}</td><td>${product_name}</td><td>${vendor_name}</td><td>${category_name}</td><td>${quantity}</td><td>${reorder_quantity}</td></tr>";
+        $table_body.="><td>${sno}</td><td>${product_name}</td><td>${vendor_name}</td><td>${category_name}</td><td>${reorder_quantity}</td><td>${quantity}</td><td>${rate}</td><td>${amount}</td></tr>";
     }
     session::flash('dyes_status_table_body',$table_body);
+    session::flash('dyes_status_total_amount',$total_cost);
     redirect::to('../pages/dyes_status.php');
 }
 ?>

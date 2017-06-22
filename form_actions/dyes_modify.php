@@ -13,6 +13,7 @@ if(input::exists()){
         $date=input::get('Date');
         $product_list=input::get('Product-List');
         $quantity_list=input::get('Quantity-List');
+        $current_date=date("Y-m-d h:i:sa");
         if($type){
             //Adding Stock 
             for($iterator=0;$iterator<count($product_list);$iterator++){
@@ -30,6 +31,7 @@ if(input::exists()){
                     'total_quantity' => $updated_quantity,
                     'type' =>$type,
                     'date' =>$date,
+                    'insert_date'=>$current_date
                     ))){
                     }
                 }   
@@ -54,6 +56,7 @@ if(input::exists()){
                                 'total_quantity' => $updated_quantity,
                                 'type' =>$type,
                                 'date' =>$date,
+                                'insert_date'=>$current_date
                                 ))){
                                 }
                             }

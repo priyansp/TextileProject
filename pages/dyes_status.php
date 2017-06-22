@@ -10,7 +10,6 @@ $products = $products->results();
 
 $vendors = $db->query_assoc("select * from vendors;");
 $vendors = $vendors->results();
-
 $query="select * from product";
 $join="join vendors on vendors.vendor_id=product.vendor_id join category on product.category_id=category.category_id";
 $query.=" ${join} order by LOWER(product.product_name);";
@@ -18,17 +17,21 @@ $result=$db->query_assoc($query)->results();
 
 //Generating the Table for the Search
 $table_body="";
+$total_cost="";
 for($i=0,$sno=1;$i<count($result);$i++,$sno++){
     $product_name=$result[$i]['product_name'];
     $vendor_name=$result[$i]['vendor_name'];
     $category_name=$result[$i]['category_name'];
     $quantity=$result[$i]['quantity'];
     $reorder_quantity=$result[$i]['reorder_qty'];
+    $rate=$result[$i]['rate'];
+    $amount=$result[$i]['rate']*$result[$i]['quantity'];
+    $total_cost+=$amount;
     $table_body.="<tr ";
     if($quantity<=$reorder_quantity){
         $table_body.="class='make_red'";
     }
-    $table_body.="><td>${sno}</td><td>${product_name}</td><td>${vendor_name}</td><td>${category_name}</td><td>${quantity}</td><td>${reorder_quantity}</td></tr>";
+    $table_body.="><td>${sno}</td><td>${product_name}</td><td>${vendor_name}</td><td>${category_name}</td><td>${reorder_quantity}</td><td>${quantity}</td><td>${rate}</td><td>${amount}</td></tr>";
 }
 ?>
 <div class="right_col" role="main">
@@ -116,9 +119,13 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Stock Details</h2>
+                    <div class="col-md-offset-8 col-md-2">
+                        <button class="btn btn-warning" id="download_button">Download</button>
+                        <a href="" id="download_link" style="display:none">Download Link</a>    
+                    </div>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content">
+                  <div class="x_content" id="table_div">
                     <table id="datatable" class="table table-striped table-bordered">
                       <thead>
                         <tr>
@@ -126,8 +133,10 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
                           <th>Product</th>
                           <th>Vendor</th>
                           <th>Category</th>
-                          <th>Quantity</th>
                           <th>Reorder Qty</th>
+                          <th>Quantity</th>
+                          <th>Rate</th>
+                          <th>Amount</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -137,11 +146,19 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
                             }else{
                                 echo $table_body;
                             }
+                            if(session::exists('dyes_status_total_amount')){
+                                $total_cost=session::flash('dyes_status_total_amount');
+                            }
                           ?>
                       </tbody>
-
-
                     </table>
+                    <div class="form-group">
+                        <label style="margin-top:10px"class="control-label col-md-offset-9 col-md-1 col-sm-3 col-xs-12" for="Vendor-Name">TotalCost
+                        </label>
+                        <div class="col-md-2 col-sm-3 col-xs-12">
+                          <input type="text" value="<?php echo $total_cost; ?>" id="Total-Cost" name="Total-Cost" class="form-control col-md-7 col-xs-12" disabled>
+                        </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -164,6 +181,57 @@ $(document).ready(function(){
             e.preventDefault();
             $(select).addClass('select_errored');
         }
-    });    
+    });
+    
+    $('body').on("click","#download_button",function(){
+        var data= $("#datatable").dataTable()._('tr', {"filter": "applied"});
+        var table = $('#datatable').DataTable();
+        var headers=table.columns().header();
+        var csv=makeCSV(data,headers);
+        window.URL = window.URL || window.webkiURL;
+        var blob = new Blob([csv]);
+        var filename="dyes_status"+moment().format('YYYY-MM-DD')+".csv";
+        var blobURL = window.URL.createObjectURL(blob);
+        $('#download_link').attr("download",filename).attr("href",blobURL);
+        $('#download_link')[0].click();
+    });
+    var timeout=null;
+    $('body').on("input","#table_div input[type=search]",function(){
+        clearTimeout(timeout);
+        timeout=setTimeout(function(){
+            var data= $("#datatable").dataTable()._('tr', {"filter": "applied"});
+            var amount=0;
+            for(var i=0;i<data.length;i++) {
+                amount+=parseInt(data[i][7]);
+            }
+            $("#Total-Cost").val(amount);
+        },500);
+    });
 });
+
+function makeCSV(data,header){
+    var CSV="";
+    var seperator=",";
+    var HEADER="";
+    var FOOTER="";
+    for(var i=0;i<header.length;i++){
+        HEADER+=header[i].innerHTML+seperator;
+        if((header.length-i)>2){
+            FOOTER+=",";
+        }
+    }
+    var total_cost=$("#Total-Cost").val();
+    FOOTER+="Total-Cost,";
+    FOOTER+=total_cost;
+    for(var i=0;i<data.length;i++) {
+        CSV+=i+1;
+        for(var j=1;j<data[i].length;j++){
+            CSV+=seperator+data[i][j];
+        }
+        CSV+="\n";
+    }
+    HEADER+="\n";
+    return HEADER+CSV+FOOTER;
+}
+
 </script>

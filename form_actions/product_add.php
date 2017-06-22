@@ -16,6 +16,9 @@ if(input::exists()){
             'Reorder-Qty' => array(
 				'required' => true,
 			),
+            'Rate' => array(
+				'required' => true,
+			),
     ));
     if($validation->passed()){
         $db=DB::getInstance();
@@ -24,7 +27,8 @@ if(input::exists()){
         'category_id' => input::get('Category'),
         'vendor_id'=>input::get('Vendor'),
         'reorder_qty'=>input::get('Reorder-Qty'),
-        'quantity'=>0
+        'quantity'=>0,
+        'rate'=>input::get('Rate')
         ))){
             session::flash('product_add_success','Product has been added successfully');
             redirect::to('../pages/product_add.php');

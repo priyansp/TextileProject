@@ -2,8 +2,8 @@
 require_once '../core/init.php';
 if(input::exists()){
     $db=DB::getInstance();
-    $product_id=input::get('product_id');
-    $query="select quantity,rate from product where product_id=${product_id};";
+    $product_name=input::get('product_name');
+    $query="select quantity,rate from product where product_name='${product_name}';";
     $query= $db->query_assoc($query);
     $row_count=$query->rcount();
     $response=array();

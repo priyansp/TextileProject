@@ -18,7 +18,7 @@ $GLOBALS['config'] = array(
 		)
 
  );
-
+date_default_timezone_set("Asia/Kolkata");
 spl_autoload_register(function($class){
 	if(file_exists('../classes/' .$class.'.php')){
 	require_once '../classes/' .$class.'.php';}

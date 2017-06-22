@@ -2,18 +2,18 @@
 require_once '../core/init.php';
 if(input::exists()){
     $db=DB::getInstance();
-    $product_id=input::get('product_id');
-    $query="select quantity,rate from product where product_id=${product_id};";
+    $lot_no=input::get('lot_no');
+    $query="select * from lot_details where lot_no=${lot_no};";
     $query= $db->query_assoc($query);
     $row_count=$query->rcount();
     $response=array();
-    if($row_count){
+    if($row_count){    
         $result=$query->first();
-        $response['quantity']=$result['quantity'];
-        $response['rate']=$result['rate'];
+        $response=$result;
+        $response['status']="200";
     }
     else{
-        $response['quantity']=0;
+        $response['status']="404";
     }
     echo json_encode($response);
 }

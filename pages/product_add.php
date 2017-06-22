@@ -72,7 +72,14 @@ $vendors = $vendors->results();
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-name">Re-Order Quantity<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" min="1" name="Reorder-Qty" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="number" min="0" name="Reorder-Qty" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-name">Rate<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" step="0.01" name="Rate" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="ln_solid"></div>
