@@ -1,6 +1,7 @@
 <?php
 require_once '../core/init.php';
 if(input::exists()){
+    
     $validate = new validate();
 		$validation = $validate->check($_POST, array(
 			'Lot-No' => array(
@@ -19,9 +20,6 @@ if(input::exists()){
 				'required' => true,
 			),
             'Shade' => array(
-				'required' => true,
-			),
-            'Profit' => array(
 				'required' => true,
 			),
             'Total-Price' => array(
@@ -61,26 +59,61 @@ if(input::exists()){
         }
         $json=json_encode($product_json);
         
-        if($db->insert('lot_details',array(
-        'lot_no' => $lot_no,
-        'weight' => $weight,
-        'date' => $date,
-        'count' =>$count,
-        'party_name' =>$party,
-        'shade_name' =>$shade,
-        'profit' =>$profit,
-        'total_price'=>$total_price,
-        'per_kg_price'=>$per_kg_price,
-        'products'=>$json
-        ))){
-        }
+        $type=input::get('type');
         
-        session::flash("lot_add_success","Success!Lot Details has been added successfully");
-        redirect::to('../pages/lot_add.php');
+        if($type!=1){
+            $validation = $validate->check($_POST, array(
+			'Lot-No' => array(
+				'unique' => 'lot_details,lot_no',
+            )));
+            if($validation->passed()){
+                if($db->insert('lot_details',array(
+                'lot_no' => $lot_no,
+                'weight' => $weight,
+                'date' => $date,
+                'count' =>$count,
+                'party_name' =>$party,
+                'shade_name' =>$shade,
+                'profit' =>$profit,
+                'total_price'=>$total_price,
+                'per_kg_price'=>$per_kg_price,
+                'products'=>$json
+                ))){
+                    session::flash("lot_add_success","Success!Lot Details has been added successfully");
+                    redirect::to('../pages/lot_add.php');
+                }
+            }
+            else{
+                $validation->addFlash('lot_add_failed');
+                redirect::to('../pages/lot_add.php');
+            }
+        }
+        else{
+            if($db->update_any('lot_details','lot_no',$lot_no,array(
+                'weight' => $weight,
+                'date' => $date,
+                'count' =>$count,
+                'party_name' =>$party,
+                'shade_name' =>$shade,
+                'profit' =>$profit,
+                'total_price'=>$total_price,
+                'per_kg_price'=>$per_kg_price,
+                'products'=>$json
+                ))){
+                    session::flash("lot_add_success","Success!Lot Details has been Updated successfully");
+                    redirect::to('../pages/lot_add.php');
+            }
+            
+        }
     }
     else{
         $validation->addFlash('lot_add_failed');
-        redirect::to('../pages/lot_modify.php');
+        redirect::to('../pages/lot_add.php');
+    }
+    function get_data(){
+        
     }
 }
+
+
 ?>

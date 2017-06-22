@@ -118,10 +118,14 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Stock Details</h2>
-                    <div class="col-md-offset-8 col-md-2">
-                        <button class="btn btn-warning" id="download_button">Download</button>
-                        <a href="" id="download_link" style="display:none">Download Link</a>    
+                   <div class="col-md-6">
+                        <h2>Stock Details</h2>   
+                   </div>
+                    <div class="col-md-6">
+                        <div class="col-md-offset-8 col-md-4">
+                            <button class="btn btn-warning btn-block" id="download_button">Download</button>
+                            <a href="" id="download_link" style="display:none">Download Link</a>    
+                        </div>    
                     </div>
                     <div class="clearfix"></div>
                   </div>

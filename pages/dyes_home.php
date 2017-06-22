@@ -6,7 +6,12 @@ require '../includes/header.php';
          <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Consumption</h2>
+                    <div class="col-md-6">
+                        <h2>Consumption</h2>   
+                    </div>
+                    <div class="col-md-6">
+                        <input type="date" id="consumption_date" class="form-control"/>   
+                    </div>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -18,7 +23,12 @@ require '../includes/header.php';
          <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Addition</h2>
+                   <div class="col-md-6">
+                        <h2>Addition</h2>   
+                   </div>
+                   <div class="col-md-6">
+                        <input type="date" id="addition_date" class="form-control"/>   
+                   </div>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -34,21 +44,21 @@ require '../includes/footer.php';
 ?>
 <script>
         $(document).ready(function(){
-            $.post('../rest_calls/get_consumptions.php',{
-                    Date:moment().subtract(1,'day').format('YYYY-MM-DD'),
-                    Type:0
-                },function(data){
-                    data=JSON.parse(data);
-                    initialiseChart($('#consumption_chart'),data,$('#consumption_message'));
-                });
-            $.post('../rest_calls/get_consumptions.php',{
-                    Date:moment().subtract(1,'day').format('YYYY-MM-DD'),
-                    Type:1
-                },function(data){
-                    data=JSON.parse(data);
-                    initialiseChart($('#addition_chart'),data,$('#addition_message'));
-            });
+            var today=moment().format('YYYY-MM-DD');
+            $("#consumption_date,#addition_date").val(today);
+            getStatus(today,0,$('#consumption_chart'),$('#consumption_message'));
+            getStatus(today,1,$('#addition_chart'),$('#addition_message'));
         });        
+        
+        function getStatus(date,type,chart,error){
+            $.post('../rest_calls/get_consumptions.php',{
+                    Date:date,
+                    Type:type
+                },function(data){
+                    data=JSON.parse(data);
+                    initialiseChart(chart,data,error);
+            });
+        }
     
         function initialiseChart(element,data,error){
             if(data.length){
@@ -74,5 +84,16 @@ require '../includes/footer.php';
                 $(error).show();
             }
         }
+    
+        $("#consumption_date").change(function(){
+            var date=$(this).val();
+            $('#consumption_chart *').remove();
+            getStatus(date,0,$('#consumption_chart'),$('#consumption_message'));
+        });
+        $("#addition_date").change(function(){
+            var date=$(this).val();
+            $('#addition_chart *').remove();
+            getStatus(date,1,$('#addition_chart'),$('#addition_message'));
+        });
         
 </script>

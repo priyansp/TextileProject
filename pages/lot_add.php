@@ -3,6 +3,19 @@ require '../includes/header.php';
 $db = DB::getInstance();
 $product = $db->query_assoc("select product_id,product_name from product order by product_name;");
 $product = $product->results();
+$data_present=false;
+$fix_lot=false;
+if(input::exists()){
+    $lot_no=input::get('lot_no');
+    $type=input::get('type');
+    $query="select * from lot_details where lot_no=${lot_no};";
+    $query= $db->query_assoc($query);
+    $results=$query->first();
+    $data_present=true;
+    if($type==1){
+        $fix_lot=true;
+    }
+}
 ?>
  <div class="right_col" role="main">
     <div class="row">
@@ -22,7 +35,7 @@ $product = $product->results();
                         }
                 ?>
                 <div class='alert alert-danger alert-dismissable' id="lot_duplicate_error">
-                    <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+                    <a href='#' class='close' aria-label='close'>&times;</a>
                     Oops!The lot number is already present.Try Editing the lot
                 </div>
                 <div class="x_panel">
@@ -36,17 +49,18 @@ $product = $product->results();
                         <label class="control-label col-md-1 col-sm-3 col-xs-12" >Lot No.<span class="required">*</span>
                         </label>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <input type="number" id="Lot-No" required="required" name="Lot-No" class="form-control col-md-7 col-xs-12">
+                            <input type="number" id="Lot-No" required="required" name="Lot-No" class="form-control col-md-7 col-xs-12" value="<?php echo $fix_lot?$lot_no:"";?>" <?php echo $fix_lot?"readonly":"";?>>
+                                <input type="hidden" id="type" required="required" name="type" class="form-control col-md-7                                 col-xs-12" value="<?php echo $data_present?$type:2;?>" />
                         </div>
                         <label class="control-label col-md-1 col-sm-3 col-xs-12">Weight<span class="required">*</span>
                         </label>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <input type="number" id="Weight" min="1" required="required" name="Weight" class="form-control col-md-7 col-xs-12">
+                            <input type="number" id="Weight" min="1" required="required" name="Weight" class="form-control col-md-7 col-xs-12" value="<?php echo $data_present?$results['weight']:"";?>">
                         </div>
                         <label class="control-label col-md-1 col-sm-3 col-xs-12">Date<span class="required">*</span>
                         </label>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <input type="date" id="Date" required="required" name="Date" class="form-control col-md-7 col-xs-12">
+                            <input type="date" id="Date" required="required" name="Date" class="form-control col-md-7 col-xs-12" value="<?php echo $data_present?$results['date']:"";?>">
                         </div>
                         
                         <div class="form-group">
@@ -55,34 +69,34 @@ $product = $product->results();
                         <label class="control-label col-md-1 col-sm-3 col-xs-12">Count<span class="required">*</span>
                         </label>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <input type="text" id="Lot-No" required="required" name="Count" class="form-control col-md-7 col-xs-12">
+                            <input type="text" id="Lot-No" required="required" name="Count" class="form-control col-md-7 col-xs-12" value="<?php echo $data_present?$results['count']:"";?>">
                         </div>
                         <label class="control-label col-md-1 col-sm-3 col-xs-12">Party<span class="required">*</span>
                         </label>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <input type="text" id="Party" required="required" name="Party" class="form-control col-md-7 col-xs-12">
+                            <input type="text" id="Party" required="required" name="Party" class="form-control col-md-7 col-xs-12" value="<?php echo $data_present?$results['party_name']:"";?>">
                         </div>
                         <label class="control-label col-md-1 col-sm-3 col-xs-12">Shade<span class="required">*</span>
                         </label>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <input type="text" id="Shade" required="required" name="Shade" class="form-control col-md-7 col-xs-12">
+                            <input type="text" id="Shade" required="required" name="Shade" class="form-control col-md-7 col-xs-12" value="<?php echo $data_present?$results['shade_name']:"";?>">
                         </div>
                         <div class="form-group">
                         </div>  
                         <label class="control-label col-md-1 col-sm-3 col-xs-12">Profit(%)<span class="required">*</span>
                         </label>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <input type="number" value="0" id="Profit" required="required" name="Profit" class="form-control col-md-7 col-xs-12">
+                            <input type="number" id="Profit" required="required" name="Profit" class="form-control col-md-7 col-xs-12" value="<?php echo $data_present?$results['profit']:0;?>">
                         </div>
                         <label class="control-label col-md-1 col-sm-3 col-xs-12">Total<span class="required">*</span>
                         </label>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <input type="text" id="Total-Price" value="0" required="required" name="Total-Price" class="form-control col-md-7 col-xs-12" readonly>
+                            <input type="text" id="Total-Price"  required="required" name="Total-Price" class="form-control col-md-7 col-xs-12" readonly value="<?php echo $data_present?$results['total_price']:0;?>">
                         </div>
                         <label class="control-label col-md-1 col-sm-3 col-xs-12">Per Kg<span class="required">*</span>
                         </label>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <input type="text" id="Per-Kg" value="0" required="required" name="Per-Kg" class="form-control col-md-7 col-xs-12" readonly>
+                            <input type="text" id="Per-Kg"  required="required" name="Per-Kg" class="form-control col-md-7 col-xs-12" readonly value="<?php echo $data_present?$results['per_kg_price']:0;?>">
                         </div>
                         <div class="form-group">
                         </div> 
@@ -136,13 +150,21 @@ $(document).ready(function(){
         var first_form_element="<div class='dynamic_form_content'>"+product_select+"<div class='input_qty col-md-2 col-sm-4 col-xs-12'><input name='Quantity-List[]' type='number' min='0' step='0.001' placeholder='Quantity Of' required='required' class='form-control col-md-7 col-xs-12 qty_number'></div><div class='col-md-2 col-sm-4 col-xs-12 maximum_qty'><input name='max_qty[]'  type='text' class='form-control col-md-7 col-xs-12' placeholder='Available Qty' readonly/></div><div class='col-md-2 col-sm-4 col-xs-12 rate_div'><input name='Rate-List[]' type='text' placeholder='Rate' required='required' class='form-control col-md-7 col-xs-12' readonly></div><div class='col-md-2 col-sm-4 col-xs-12 amount_div'><input name='Amount-List[]' type='text' placeholder='Amount' required='required' class='form-control col-md-7 col-xs-12' readonly></div><div class='col-md-2'><button type='button' class='btn btn-warning btn-block form_add'>Add</button></div><div class='form-group'></div></div>";
         
         $('#dynamic_form_container').append(first_form_element);    
-    });
+    
+        <?php
+            if($data_present){?>
+                var product_json=<?php echo $results['products'];?>;
+                for(var i=0;i<product_json.length;i++){
+                    setProductData(product_json[i],i);
+                }
+        <?php }?>
+});
     
     $('#dynamic_form_container').on('click','.form_add',function(){
         $(this).parent().parent().parent().append(form_html);
     });
     var total_amount=Number(0);
-    var per_kg=0;
+    var per_kg=Number(0);
     
     $('#dynamic_form_container').on('click','.form_del',function(){
         var amount=$(this).parents('.dynamic_form_content').find('.amount_div input').val();
@@ -205,7 +227,9 @@ $(document).ready(function(){
                     rate="Rs."+data.rate;
                     $(parent).find('.maximum_qty input').val(quantity);
                     $(parent).find('.rate_div input').val(rate);
-                    $(parent).find('.qty_number').attr('max',quantity);
+                    //Commenting the Max qty now and will be enabling once the stock is deducted from Lot page
+                    //$(parent).find('.qty_number').attr('max',quantity);
+                    //Making quantity to if the available quantity is zero
                     if(!quantity){
                         $(parent).find('.qty_number').attr('min',quantity);
                     }
@@ -270,7 +294,8 @@ $(document).ready(function(){
     });
     
     $('form').submit(function(e){
-        if(!submit_state){
+        var type=$("#type").val();
+        if(!submit_state && type!=1){
             e.preventDefault();
             var lotno=$("#Lot-No").val();
             $.post('../rest_calls/get_lot_details.php',{
@@ -289,4 +314,14 @@ $(document).ready(function(){
         }
     });
     
+    function setProductData(product,index){
+        var selector=".dynamic_form_content:eq("+index+")";
+        $(selector).find(".input_qty input").val(product.quantity);
+        $(selector).find(".product_select").val(product.product_name);
+        $(selector).find(".product_select").change();
+        $(selector).find(".form_add").click();
+    }
+    $("#lot_duplicate_error a").click(function(){
+        $(this).parent().hide();
+    });
 </script>

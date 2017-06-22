@@ -75,10 +75,29 @@ if(input::exists()){
               <div class="col-md-12 col-sm-12 col-xs-12" id="print_div">
                 <div class="x_panel">
                   <div class="x_title">
+                   <div class="col-md-6">
                     <h2>Lot Details</h2>
-                    <div class="col-md-offset-9 col-md-2">
-                        <button class="btn btn-warning" id="print_button">Print</button>
-                    </div>
+                   </div>
+                   <div class="col-md-6">
+                       <div class="col-md-3 col-md-offset-6">
+                            <form action="lot_add.php" method="post">
+                                <input type="hidden" name="lot_no" value="<?php echo $result['lot_no'];?>"/>
+                                <input type="hidden" name="type" value="1"/>
+                                <div class="col-md-12">
+                                <button type="submit" class="btn btn-success btn-block">Edit</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-3">
+                            <form action="lot_add.php" method="post">
+                                <input type="hidden" name="lot_no" value="<?php echo $result['lot_no'];?>"/>
+                                <input type="hidden" name="type" value="2"/>
+                                <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary btn-block">Copy</button>
+                                </div>
+                            </form>
+                        </div>
+                   </div>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -121,7 +140,7 @@ if(input::exists()){
                         <label class="control-label col-md-1 col-sm-3 col-xs-12">Profit(%)<span class="required">*</span>
                         </label>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <input type="number" value="0" id="Profit" required="required" name="Profit" class="form-control col-md-7 col-xs-12" value="<?php echo $result['profit'];?>" readonly>
+                            <input type="number" id="Profit" required="required" name="Profit" class="form-control col-md-7 col-xs-12" value="<?php echo $result['profit'];?>" readonly>
                         </div>
                         <label class="control-label col-md-1 col-sm-3 col-xs-12">Total<span class="required">*</span>
                         </label>
