@@ -26,5 +26,4 @@ spl_autoload_register(function($class){
 		return false;
 	}
 });
-require_once '../functions/sanitize.php';
 ?>
