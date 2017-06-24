@@ -1,5 +1,9 @@
 <?php
 require '../includes/header.php';
+if(!$user->checkAccess("dyes_status")){
+    redirect::to("login.php");
+}
+$user=new user();
 $db = DB::getInstance();
 
 $categories = $db->query_assoc("select * from category;");
@@ -31,7 +35,11 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
     if($quantity<=$reorder_quantity){
         $table_body.="class='make_red'";
     }
-    $table_body.="><td>${sno}</td><td>${product_name}</td><td>${vendor_name}</td><td>${category_name}</td><td>${reorder_quantity}</td><td>${quantity}</td><td>${rate}</td><td>${amount}</td></tr>";
+    $table_body.="><td>${sno}</td><td>${product_name}</td><td>${vendor_name}</td><td>${category_name}</td><td>${reorder_quantity}</td><td>${quantity}</td>";
+    if($user->data()->group==1){
+        $table_body.="<td>${rate}</td><td>${amount}</td>";
+    }
+    $table_body.="</tr>";
 }
 ?>
 <div class="right_col" role="main">
@@ -121,12 +129,15 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
                    <div class="col-md-6">
                         <h2>Stock Details</h2>   
                    </div>
+                   <?php
+                    if($user->data()->group==1){?>
                     <div class="col-md-6">
                         <div class="col-md-offset-8 col-md-4">
                             <button class="btn btn-warning btn-block" id="download_button">Download</button>
                             <a href="" id="download_link" style="display:none">Download Link</a>    
                         </div>    
                     </div>
+                    <?php } ?>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content" id="table_div">
@@ -139,8 +150,11 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
                           <th>Category</th>
                           <th>Reorder Qty</th>
                           <th>Quantity</th>
+                          <?php 
+                            if($user->data()->group==1){?>
                           <th>Rate</th>
                           <th>Amount</th>
+                          <?php } ?>
                         </tr>
                       </thead>
                       <tbody>
@@ -156,6 +170,8 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
                           ?>
                       </tbody>
                     </table>
+                    <?php
+                    if($user->data()->group==1){?>
                     <div class="form-group">
                         <label style="margin-top:10px"class="control-label col-md-offset-9 col-md-1 col-sm-3 col-xs-12" for="Vendor-Name">TotalCost
                         </label>
@@ -163,6 +179,7 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
                           <input type="text" value="<?php echo $total_cost; ?>" id="Total-Cost" name="Total-Cost" class="form-control col-md-7 col-xs-12" disabled>
                         </div>
                     </div>
+                    <?php }?>
                   </div>
                 </div>
               </div>

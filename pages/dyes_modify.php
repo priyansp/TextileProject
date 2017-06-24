@@ -1,5 +1,8 @@
 <?php
 require '../includes/header.php';
+if(!$user->checkAccess("dyes_modify")){
+    redirect::to("login.php");
+}
 $db = DB::getInstance();
 $product = $db->query_assoc("select product_id,product_name from product order by product_name;");
 $product = $product->results();
@@ -89,9 +92,9 @@ require '../includes/footer.php';
         }
         product_select+="</select></div>";
         
-        form_html="<div class='dynamic_form_content'>"+product_select+"<div class='col-md-3 col-sm-4 col-xs-12'><input name='Quantity-List[]' type='number' placeholder='Quantity Of' min='1' id='first-name' required='required' class='form-control col-md-7 col-xs-12 qty_number'></div><div class='col-md-2 col-sm-4 col-xs-12 max_qty'><input name='max_qty[]' type='text' class='form-control col-md-7 col-xs-12' value='0' readonly/></div><div class='col-md-1'><button type='button' class='btn btn-warning btn-block form_add'>Add</button></div><div class='col-md-1'><button type='button' class='btn btn-danger btn-block form_del'>Del</button></div><div class='form-group'></div></div>";
+        form_html="<div class='dynamic_form_content'>"+product_select+"<div class='col-md-3 col-sm-4 col-xs-12'><input name='Quantity-List[]' step='0.001' type='number' placeholder='Quantity Of' min='0.001' id='first-name' required='required' class='form-control col-md-7 col-xs-12 qty_number'></div><div class='col-md-2 col-sm-4 col-xs-12 max_qty'><input name='max_qty[]' type='text' class='form-control col-md-7 col-xs-12' value='0' readonly/></div><div class='col-md-1'><button type='button' class='btn btn-warning btn-block form_add'>Add</button></div><div class='col-md-1'><button type='button' class='btn btn-danger btn-block form_del'>Del</button></div><div class='form-group'></div></div>";
         
-        var first_form_element="<div class='dynamic_form_content'>"+product_select+"<div class='col-md-3 col-sm-4 col-xs-12'><input name='Quantity-List[]' type='number' placeholder='Quantity Of' min='1' required='required' class='form-control col-md-7 col-xs-12 qty_number'></div><div class='col-md-2 col-sm-4 col-xs-12 max_qty'><input name='max_qty[]'  type='text' class='form-control col-md-7 col-xs-12' value='0' readonly/></div><div class='col-md-2'><button type='button' class='btn btn-warning btn-block form_add'>Add</button></div><div class='form-group'></div></div>";
+        var first_form_element="<div class='dynamic_form_content'>"+product_select+"<div class='col-md-3 col-sm-4 col-xs-12'><input name='Quantity-List[]' type='number' placeholder='Quantity Of' min='0.001' step='0.001' required='required' class='form-control col-md-7 col-xs-12 qty_number'></div><div class='col-md-2 col-sm-4 col-xs-12 max_qty'><input name='max_qty[]'  type='text' class='form-control col-md-7 col-xs-12' value='0' readonly/></div><div class='col-md-2'><button type='button' class='btn btn-warning btn-block form_add'>Add</button></div><div class='form-group'></div></div>";
         
         $('#dynamic_form_container').append(first_form_element);    
     });

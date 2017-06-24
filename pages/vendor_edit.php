@@ -1,5 +1,8 @@
 <?php
 require '../includes/header.php';
+if(!$user->checkAccess("vendor_edit")){
+    redirect::to("login.php");
+}
 $db = DB::getInstance();
 $vendor = $db->query_assoc("select * from vendors;");
 $vendor = $vendor->results();

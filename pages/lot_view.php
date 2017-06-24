@@ -1,6 +1,8 @@
 <?php
 require '../includes/header.php';
-
+if(!$user->checkAccess("lot_view")){
+    redirect::to("login.php");
+}
 $is_present=false;
 if(input::exists()){
     $db = DB::getInstance();
@@ -19,7 +21,11 @@ if(input::exists()){
             $quantity=$product_json[$i]['quantity'];
             $rate=$product_json[$i]['rate'];
             $amount=$product_json[$i]['amount'];
-            $table_body.="<tr><td>${sno}</td><td>${product_name}</td><td>${quantity}</td><td>${rate}</td><td>${amount}</td></tr>";
+            $table_body.="<tr><td>${sno}</td><td>${product_name}</td><td>${quantity}</td>";
+            if($user->data()->group==1){
+                $table_body.="<td>${rate}</td><td>${amount}</td>";
+            }
+            $table_body.="</tr>";
         }
     }
     else{
@@ -136,24 +142,81 @@ if(input::exists()){
                             <input type="text" id="Shade" required="required" name="Shade" class="form-control col-md-7 col-xs-12" value="<?php echo $result['shade_name'];?>" readonly>
                         </div>
                         <div class="form-group">
-                        </div>  
-                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Profit(%)<span class="required">*</span>
+                        </div>
+                        <?php if($user->data()->group==1) { ?>
+                        <div class="ln_solid"></div>
+                        <div class="col-md-4">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Profit(%)<span class="required">*</span>
                         </label>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-8 col-sm-6 col-xs-12">
                             <input type="number" id="Profit" required="required" name="Profit" class="form-control col-md-7 col-xs-12" value="<?php echo $result['profit'];?>" readonly>
                         </div>
-                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Total<span class="required">*</span>
+                        </div>
+                        <div class="col-md-4">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Total<span class="required">*</span>
                         </label>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-8 col-sm-6 col-xs-12">
                             <input type="text" id="Total-Price"  required="required" name="Total-Price" class="form-control col-md-7 col-xs-12" value="<?php echo $result['total_price'];?>" readonly>
                         </div>
-                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Per Kg<span class="required">*</span>
+                        </div>
+                        <div class="col-md-4">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Per Kg<span class="required">*</span>
                         </label>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-8 col-sm-6 col-xs-12">
                             <input type="text" id="Per-Kg"  required="required" name="Per-Kg" class="form-control col-md-7 col-xs-12" value="<?php echo $result['per_kg_price'];?>" readonly>
                         </div>
+                        </div>  
                         <div class="form-group">
+                        </div>
+
+                        <div class="col-md-4 ">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Overheads(Kg)<span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-6 col-xs-12">
+                            <input type="number" id="Overheads"  required="required" name="Overheads" class="form-control col-md-12 col-xs-12" value="<?php echo $result['overheads_per_kg'];?>" readonly>
+                         </div>
+                        </div>
+                        <div class="col-md-4 ">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Dyes-Total<span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-6 col-xs-12">
+                            <input type="text" id="Dyes-Total"  required="required" name="Dyes-Total" class="form-control col-md-12 col-xs-12" readonly value="<?php echo $result['dyes_total'];?>">
+                         </div>
+                        </div>
+                        <div class="col-md-4 ">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Dyes-Per-Kg<span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-6 col-xs-12">
+                            <input type="text" id="Dyes-Per-Kg"  required="required" name="Dyes-Per-Kg" class="form-control col-md-12 col-xs-12" readonly value="<?php echo $result['dyes_per_kg'];?>">
+                         </div>
+                        </div>
+                        
+                        <div class=" form-group">
+                        </div>
+                        <div class="col-md-4">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Overheads<span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-6 col-xs-12">
+                            <input type="text" id="Overheads-Total"  required="required" name="Overheads-Total" class="form-control col-md-12 col-xs-12" value="<?php echo $result['overheads_total'];?>" readonly name="Overheads-Total">
+                         </div>
+                        </div>
+                        <div class="col-md-4">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Chem-Total<span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-6 col-xs-12">
+                            <input type="text" id="Chemicals-Total"  required="required" name="Chemicals-Total" class="form-control col-md-12 col-xs-12" readonly value="<?php echo $result['chemicals_total']?>">
+                         </div>
+                        </div>
+                        <div class="col-md-4">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Chem-Per-Kg<span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-6 col-xs-12">
+                            <input type="text" id="Chem-Per-Kg"  required="required" name="Chemicals-Per-Kg" class="form-control col-md-12 col-xs-12" readonly value="<?php echo $result['chemicals_per_kg'];?>">
+                         </div>
                         </div> 
+                        <div class="hide-div form-group">
+                        </div> 
+                        <?php } ?>
                         </form>
                         <div class="x_title">
                             <h4>Dyes &amp; Chemicals(Consumption)</h4>
@@ -165,8 +228,10 @@ if(input::exists()){
                                   <th>S.No</th>
                                   <th>Product Name</th>
                                   <th>Quantity</th>
+                                  <?php if($user->data()->group==1){ ?>
                                   <th>Price</th>
                                   <th>Amount</th>
+                                  <?php } ?>
                                 </tr>
                               </thead>
                               <tbody>
@@ -182,15 +247,3 @@ if(input::exists()){
 <?php
 require '../includes/footer.php';
 ?>
-<script>
-    $("#print_button").click(function(){
-        window.print();
-        /*var text=$("#print_div").html();
-        var printWindow=window.open('','','width=900,height=650');
-        printWindow.document.write(text);
-        printWindow.document.close();
-        printWindow.focus();
-        printWindow.print();
-        printWindow.close();*/
-    });
-</script>

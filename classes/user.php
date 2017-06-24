@@ -15,7 +15,6 @@
  		if(!$user){
  			if(session::exists($this->_sessionName)){
  				$user = session::get($this->_sessionName);
-
  				if($this->find($user)){
  					$this->_isLoggedIn = true;
  				}else{
@@ -63,7 +62,7 @@
  			$id = $this->data()->id;
  		}
 
- 		if(!$this->_db->update('users',$id,$fields)){
+ 		if(!$this->_db->update('user',$id,$fields)){
  			throw new Exception("there was a problem while updating.");
  		}else{
 			return true;
@@ -74,7 +73,7 @@
 	
 		
  	public function create($fields = array()){
- 		if(!$this->_db->insert('users',$fields)){
+ 		if(!$this->_db->insert('user',$fields)){
  			throw new Exception("There was a problem in creating an account!");
  		}
  	}
@@ -88,8 +87,8 @@
 
  	public function find($user = null){
  		if($user){
- 			$field = (is_numeric($user)) ? 'id' : 'username';
- 			$data = $this->_db->get('users',array($field, '=' ,$user ));
+ 			$field ='user_name';
+ 			$data = $this->_db->get('user',array($field, '=' ,$user ));
  			if($data->count()){
  				$this->_data = $data->first();
  				return true;
@@ -115,28 +114,10 @@
  		if(!$username && !$password && $this->exists()){
  			session::put($this->_sessionName,$this->data()->id);
  		}else{
-
 	 		$user = $this->find($username);
 	 		if($user){
 	 			if($this->data()->password === hash::make($password,$this->data()->salt)){
-					
-	 				session::put($this->_sessionName,$this->data()->id);
-	 				
-	 				if($remember){
-	 					$hash = hash::unique();
-	 		 			$hashcheck = $this->_db->get('user_sessions',array('user_id','=',$this->data()->id)); 
-	  					if(!$hashcheck->count()){
-	 						$this->_db->insert('user_sessions',array(
-	 							'user_id' => $this->data()->id,
-	 							'hash' => $hash
-	 							));
-	 					}else{
-	 						$hash = $hashcheck->first()->hash;
-	 					}
-
-	 					cookies::put($this->_cookieName,$hash,config::get('remember/cookie_expiry'));
-	 				}
-
+	 				session::put($this->_sessionName,$this->data()->user_name);
 	 				return true;
 	 			}	
 	 		}
@@ -144,7 +125,7 @@
  		return false;
  	}
 
-	 	public function login_response($username = null,$password = null){
+     public function login_response($username = null,$password = null){
 	 		$user = $this->find($username);
 	 		if($user){
 	 			if($this->data()->password === hash::make($password,$this->data()->salt)){
@@ -159,11 +140,9 @@
  	public function exists(){
  		return (!empty($this->_data)) ?true : false;
  	}
+     
  	public function logout(){
-
- 		$this->_db->delete('user_sessions',array('user_id','=',$this->data()->id));
  		session::delete($this->_sessionName);
- 		cookies::delete($this->_cookieName);
  	}
  	public function data(){
  		return $this->_data;
@@ -171,6 +150,16 @@
  	public function isLoggedIn(){
  		return $this->_isLoggedIn;
  	}
+    public function checkAccess($pageName){
+        if($this->data()->group==2){
+            $supervisor_access=array("dyes_status","lot_add","lot_view","user_password_change");
+            if(in_array($pageName,$supervisor_access)){
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
 
  }
 

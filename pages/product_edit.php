@@ -1,5 +1,8 @@
 <?php
 require '../includes/header.php';
+if(!$user->checkAccess("product_edit")){
+    redirect::to("login.php");
+}
 $db = DB::getInstance();
 $products = $db->query_assoc("select * from product order by LOWER(product_name);");
 $products = $products->results();

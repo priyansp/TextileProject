@@ -1,5 +1,8 @@
 <?php
 require '../includes/header.php';
+if(!$user->checkAccess("product_add")){
+    redirect::to("login.php");
+}
 $db = DB::getInstance();
 $categories = $db->query_assoc("select * from category;");
 $categories = $categories->results();

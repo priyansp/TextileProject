@@ -2,6 +2,7 @@
 require_once '../core/init.php';
 if(input::exists()){
     $db = DB::getInstance();
+    $user=new user();
     $vendor_id=input::get('Vendor');
     $category_id=input::get('Category');
     $product_id=input::get('Product');
@@ -65,7 +66,11 @@ if(input::exists()){
         if($quantity<=$reorder_quantity){
         $table_body.="class='make_red'";
         }
-        $table_body.="><td>${sno}</td><td>${product_name}</td><td>${vendor_name}</td><td>${category_name}</td><td>${reorder_quantity}</td><td>${quantity}</td><td>${rate}</td><td>${amount}</td></tr>";
+        $table_body.="><td>${sno}</td><td>${product_name}</td><td>${vendor_name}</td><td>${category_name}</td><td>${reorder_quantity}</td><td>${quantity}</td>";
+        if($user->data()->group==1){
+            $table_body.="<td>${rate}</td><td>${amount}</td>";
+        }
+        $table_body.="</tr>";
     }
     session::flash('dyes_status_table_body',$table_body);
     session::flash('dyes_status_total_amount',$total_cost);

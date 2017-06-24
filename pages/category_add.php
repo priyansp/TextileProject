@@ -1,5 +1,8 @@
 <?php
 require '../includes/header.php';
+if(!$user->checkAccess("category_add")){
+    redirect::to("login.php");
+}
 ?>
  <div class="right_col" role="main">
    
