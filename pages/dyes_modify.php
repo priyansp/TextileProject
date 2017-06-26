@@ -136,7 +136,8 @@ require '../includes/footer.php';
                     product_id:product_id
                 },function(data){
                     data=$.parseJSON(data);
-                    quantity=parseInt(data.quantity);
+                    quantity=parseFloat(data.quantity);
+                    
                     $(parent).find('.max_qty input').val(quantity);
                     $(parent).find('.qty_number').attr('max',quantity);
                     if(!quantity){

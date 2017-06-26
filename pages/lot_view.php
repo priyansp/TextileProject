@@ -18,10 +18,11 @@ if(input::exists()){
         $table_body="";
         for($i=0,$sno=1;$i<count($product_json);$i++,$sno++){
             $product_name=$product_json[$i]['product_name'];
+            $category_name=$product_json[$i]['category']==1?"Dyes":"Chemicals";
             $quantity=$product_json[$i]['quantity'];
             $rate=$product_json[$i]['rate'];
             $amount=$product_json[$i]['amount'];
-            $table_body.="<tr><td>${sno}</td><td>${product_name}</td><td>${quantity}</td>";
+            $table_body.="<tr><td>${sno}</td><td>${product_name}</td><td>${category_name}</td><td>${quantity}</td>";
             if($user->data()->group==1){
                 $table_body.="<td>${rate}</td><td>${amount}</td>";
             }
@@ -227,6 +228,7 @@ if(input::exists()){
                                 <tr>
                                   <th>S.No</th>
                                   <th>Product Name</th>
+                                  <th>Category</th>
                                   <th>Quantity</th>
                                   <?php if($user->data()->group==1){ ?>
                                   <th>Price</th>

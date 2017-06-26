@@ -13,8 +13,9 @@ if(!$user->isLoggedIn()){
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../favicon.ico" type="image/x-icon" rel="shortcut icon">
 
-    <title>Thirumala | </title>
+    <title>Thirumala Colours </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">

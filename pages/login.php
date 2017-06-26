@@ -19,7 +19,7 @@ if($user->isLoggedIn()){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Thirumala Colours | </title>
+    <title>Thirumala Colours </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -29,6 +29,9 @@ if($user->isLoggedIn()){
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- Animate.css -->
     <link href="../vendors/animate.css/animate.min.css" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link href="../favicon.ico" type="image/x-icon" rel="shortcut icon">
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">

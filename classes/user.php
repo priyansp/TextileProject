@@ -152,7 +152,7 @@
  	}
     public function checkAccess($pageName){
         if($this->data()->group==2){
-            $supervisor_access=array("dyes_status","lot_add","lot_view","user_password_change");
+            $supervisor_access=array("dyes_status","lot_add","lot_view","user_password_change","dyes_modify");
             if(in_array($pageName,$supervisor_access)){
                 return true;
             }

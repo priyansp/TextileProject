@@ -394,9 +394,7 @@ $(document).ready(function(){
         $(selector).find(".category_div input").val(product.category);
         $(selector).find(".rate_div input").val(product.rate);
         $(selector).find(".amount_div input").val(product.amount);
-        <?php if(isset($type) && $type==2){  ?>
-            $(selector).find(".product_select").change();
-        <?php } ?>
+        $(selector).find(".product_select").change();
         $(selector).find(".form_add").click();
     }
     $("#lot_duplicate_error a").click(function(){
