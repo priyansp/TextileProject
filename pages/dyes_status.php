@@ -69,7 +69,7 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
                     <br />
                     <form action="../form_actions/dyes_status.php" method="post" id="product-form" data-parsley-validate class="form-horizontal form-label-left">
 
-                        <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                           <select class="form-control" name="Category" required>
                                <option value='selected' selected>Choose Category</option>
                             <?php
@@ -80,8 +80,8 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
                           </select>                    
                         </div>
                                         
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                          <select class="form-control" name="Product" required>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                          <select class="form-control" name="Product" id="Product" required>
                                <option value='selected' selected>Choose Product</option>
                             <?php
                                 for($x=0;$x<sizeof($products);$x++){
@@ -91,8 +91,8 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
                           </select>
                         </div>
                         
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                          <select class="form-control" name="Vendor" required>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                          <select class="form-control" name="Vendor" id="Vendor" required>
                                <option value='selected' selected>Choose Vendor</option>
                             <?php
                                 for($x=0;$x<sizeof($vendors);$x++){
@@ -102,13 +102,17 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
                           </select>
                         </div>
                         
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                          <input type="date" id="Date" name="Date" class="form-control col-md-7 col-xs-12">
+                        </div>
+                        
                         <div class="form-group">
                             
                         </div>
                       <div class="ln_solid"></div>
                       <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <div class="col-md-3">
+                        <div class="col-md-12 col-sm-6 col-xs-12">
+                          <div class="col-md-3 col-md-offset-3">
                               <button class="btn btn-danger btn-block" type="reset">Reset</button>    
                           </div>
 						  <div class="col-md-3">
@@ -190,6 +194,9 @@ require '../includes/footer.php';
 ?>
 <script>
 $(document).ready(function(){
+    
+    var today = moment().format('YYYY-MM-DD');
+    $('#Date').val(today);
     $('form').submit(function(e){
         var select=$(this).find('select');
         var status=true;
@@ -198,9 +205,23 @@ $(document).ready(function(){
                 status=false;
             }
         });
+        if($("#Date").val()!=today && $("#Date").val()!=""){
+            status=false;
+        }
         if(status){
             e.preventDefault();
             $(select).addClass('select_errored');
+        }
+    });
+    
+    $("#Date").change(function(){
+        if($("#Date").val()==today){
+            $("#Product").prop("disabled",false);
+            $("#Vendor").prop("disabled",false);
+        }
+        else{
+            $("#Product").prop("disabled",true);
+            $("#Vendor").prop("disabled",true);
         }
     });
     

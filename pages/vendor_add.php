@@ -41,7 +41,7 @@ if(!$user->checkAccess("vendor_add")){
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Phone">Phone<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="Phone" name="Phone" required="required" class="form-control col-md-7 col-xs-12" pattern="[789][0-9]{9}" title="Enter 10 Digit phone Number">
+                          <input type="text" id="Phone" name="Phone" required="required" class="form-control col-md-7 col-xs-12" pattern="[0-9]*" title="Enter 10 Digit phone Number">
                         </div>
                       </div>
                       <div class="form-group">

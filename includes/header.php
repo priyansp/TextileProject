@@ -1,5 +1,6 @@
 <?php
 require_once '../core/init.php';
+ob_start();
 $user=new user();
 if(!$user->isLoggedIn()){
     redirect::to("login.php");

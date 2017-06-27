@@ -6,50 +6,36 @@ if(input::exists()){
     $vendor_id=input::get('Vendor');
     $category_id=input::get('Category');
     $product_id=input::get('Product');
-    $query="select * from product";
-    $join="join vendors on vendors.vendor_id=product.vendor_id join category on product.category_id=category.category_id";
-    
-    $isset_product=false;
-    $isset_vendor=false;
-    $isset_category=false;
-    //Creating Query and Setting flag for the Search Criteria
-    if($product_id!='selected'){
-        $query.=" ${join} where product.product_id=${product_id};";
-        $isset_product=true;
+    $date=input::get('Date');
+    $query="";
+    if($date==date("Y-m-d")){
+        $query="select * from product";
+        $join="join vendors on vendors.vendor_id=product.vendor_id join category on product.category_id=category.category_id";
+
+        if($product_id!='selected'){
+            $query.=" ${join} where product.product_id=${product_id};";
+        }
+        else if($vendor_id!='selected' && $category_id!='selected'){
+            $query.=" ${join} where product.vendor_id=${vendor_id} and product.category_id=${category_id}";
+        }
+        else if($vendor_id!='selected'){
+            $query.=" ${join} where product.vendor_id=${vendor_id}";
+        }
+        else if($category_id!='selected'){
+            $query.=" ${join} where product.category_id=${category_id}";
+        }
+        $query.=" order by LOWER(product.product_name);";
     }
-    else if($vendor_id!='selected' && $category_id!='selected'){
-        $query.=" ${join} where product.vendor_id=${vendor_id} and product.category_id=${category_id};";
-        $isset_category=true;
-        $isset_vendor=true;
-    }
-    else if($vendor_id!='selected'){
-        $query.=" ${join} where product.vendor_id=${vendor_id};";
-        $isset_vendor=true;
-    }
-    else if($category_id!='selected'){
-        $query.=" ${join} where product.category_id=${category_id};";
-        $isset_category=true;
+    else{
+        $category="";
+        if($category_id!='selected'){
+            $category="where category.category_id=${category_id}";
+        }
+        $query="select product.product_name,product.rate,a.total_quantity as quantity,vendors.vendor_name,category.category_name,product.reorder_qty from (select dyes_history.* from dyes_history where dyes_history.history_id in (select max(dyes_history.history_id) from dyes_history where dyes_history.date<='${date}' group by dyes_history.product_id)) a right join product on product.product_id=a.product_id join category on product.category_id=category.category_id join vendors on vendors.vendor_id=product.vendor_id ${category} order by product.product_name";
     }
     $result=$db->query_assoc($query)->results();
-    //Creating the Search Criteria
-    $search_criteria="";
-    if(count($result)){
-        $search_criteria="(";
-        if($isset_product){
-            $name=$result[0]['product_name'];
-            $search_criteria.="Product-Name:${name}";
-        }
-        if($isset_vendor){
-            $name=$result[0]['vendor_name'];
-            $search_criteria.="Vendor-Name:${name},";
-        }
-        if($isset_category){
-            $name=$result[0]['category_name'];
-            $search_criteria.="Category-Name:${name}";
-        }
-        $search_criteria.=")";
-    }
-    
+//    print_r($result);
+
     //Generating the Table for the Search
     $table_body="";
     $total_cost="";
@@ -57,7 +43,7 @@ if(input::exists()){
         $product_name=$result[$i]['product_name'];
         $vendor_name=$result[$i]['vendor_name'];
         $category_name=$result[$i]['category_name'];
-        $quantity=$result[$i]['quantity'];
+        $quantity=$result[$i]['quantity']?$result[$i]['quantity']:0;
         $reorder_quantity=$result[$i]['reorder_qty'];
         $rate=$result[$i]['rate'];
         $amount=$result[$i]['rate']*$result[$i]['quantity'];

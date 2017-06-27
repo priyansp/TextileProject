@@ -1,6 +1,7 @@
 <?php
 require '../includes/header.php';
 if(!$user->checkAccess("dyes_home")){
+    ob_end_clean();
     redirect::to("login.php");
 }
 ?>
