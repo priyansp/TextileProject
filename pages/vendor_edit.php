@@ -22,6 +22,7 @@ if(input::exists()){
             'email' => input::get('Email'),
             'address' => input::get('Address'),
             'details' => input::get('Details'),
+            'gstn' => input::get('GSTN'),
             ))){
             session::flash('vendor_edit_success','Vendor has been updated successfully');
             }
@@ -108,7 +109,7 @@ if($is_present){
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Phone">Phone<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="Phone" name="Phone" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $result['phone_number'];?>" pattern="[789][0-9]{9}" title="Enter 10 Digit phone Number">
+                          <input type="text" id="Phone" name="Phone" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $result['phone_number'];?>" pattern="[0-9]*" title="Enter 10 Digit phone Number">
                         </div>
                       </div>
                       <div class="form-group">
@@ -129,7 +130,14 @@ if($is_present){
                           <div class="col-md-6 col-sm-6 col-xs-12">
                             <textarea id="Details" class="form-control" name="Details"><?php echo $result['details'];?></textarea>
                           </div>
-                      </div>                      
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="GSTN">GSTN<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="GSTN" name="GSTN" class="form-control col-md-7 col-xs-12" value="<?php echo $result['gstn'];?>">
+                        </div>
+                      </div>                                            
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
