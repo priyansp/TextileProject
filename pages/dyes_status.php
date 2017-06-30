@@ -3,16 +3,15 @@ require '../includes/header.php';
 if(!$user->checkAccess("dyes_status")){
     redirect::to("login.php");
 }
-$user=new user();
 $db = DB::getInstance();
 
-$categories = $db->query_assoc("select * from category;");
+$categories = $db->query_assoc("select * from category order by LOWER(category_name);");
 $categories = $categories->results();
 
-$products = $db->query_assoc("select * from product;");
+$products = $db->query_assoc("select * from product order by LOWER(product_name);");
 $products = $products->results();
 
-$vendors = $db->query_assoc("select * from vendors;");
+$vendors = $db->query_assoc("select * from vendors where type=1 order by LOWER(vendor_name);");
 $vendors = $vendors->results();
 $query="select * from product";
 $join="join vendors on vendors.vendor_id=product.vendor_id join category on product.category_id=category.category_id";
@@ -45,21 +44,6 @@ for($i=0,$sno=1;$i<count($result);$i++,$sno++){
 <div class="right_col" role="main">
     <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
-               
-               <?php
-                  if(session::exists('product_add_failed')){
-                       echo "<div class='alert alert-danger alert-dismissable'>
-                              <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-                              ". session::flash('product_add_failed') ."
-                       </div>";
-                    }
-                    else if(session::exists('product_add_success')){
-                       echo "<div class='alert alert-success alert-dismissable'>
-                              <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-                              ". session::flash('product_add_success') ."
-                       </div>";
-                    }
-                ?>
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Dyes Stock Status(Choose Atleast Any One Value)</h2>

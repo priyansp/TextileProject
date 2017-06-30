@@ -5,13 +5,13 @@ if(!$user->checkAccess("dyes_transaction_history")){
 }
 $db = DB::getInstance();
 
-$categories = $db->query_assoc("select * from category;");
+$categories = $db->query_assoc("select * from category order by LOWER(category_name);");
 $categories = $categories->results();
 
-$products = $db->query_assoc("select * from product;");
+$products = $db->query_assoc("select * from product order by LOWER(product_name);");
 $products = $products->results();
 
-$vendors = $db->query_assoc("select * from vendors;");
+$vendors = $db->query_assoc("select * from vendors where type=1 order by LOWER(vendor_name);");
 $vendors = $vendors->results();
 ?>
 <div class="right_col" role="main">
@@ -63,17 +63,17 @@ $vendors = $vendors->results();
                             
                         </div>
                         
-                        <label class="control-label col-md-2 col-sm-3 col-xs-12" for="FromDate">From Date<span class="required">*</span>
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12" for="FromDate">From<span class="required">*</span>
                         </label>
-                        <div class="col-md-2 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                             <input type="date" id="FromDate" name="FromDate" class="form-control col-md-7 col-xs-12">
                         </div>
                         
                         
                         
-                        <label class="control-label col-md-2 col-sm-3 col-xs-12" for="ToDate">To Date<span class="required">*</span>
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12" for="ToDate">To<span class="required">*</span>
                         </label>
-                        <div class="col-md-2 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                             <input type="date" id="ToDate" name="ToDate" class="form-control col-md-7 col-xs-12" title="To date should be greater than from Date" disabled>
                         </div>
                         

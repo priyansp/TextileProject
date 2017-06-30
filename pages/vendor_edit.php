@@ -109,14 +109,14 @@ if($is_present){
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Phone">Phone<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="Phone" name="Phone" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $result['phone_number'];?>" pattern="[0-9]*" title="Enter 10 Digit phone Number">
+                          <input type="text" id="Phone" name="Phone" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $result['phone_number'];?>" pattern="[0-9]*">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Email">Email<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="email" id="Email" name="Email" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $result['email'];?>">
+                          <input type="email" id="Email" name="Email" class="form-control col-md-7 col-xs-12" value="<?php echo $result['email'];?>">
                         </div>
                       </div>
                       <div class="form-group">
@@ -136,6 +136,13 @@ if($is_present){
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="GSTN" name="GSTN" class="form-control col-md-7 col-xs-12" value="<?php echo $result['gstn'];?>">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Vendor Type<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="Type" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $result['type']==1?"Purchase":"Sales";?>" readonly>
                         </div>
                       </div>                                            
                       <div class="ln_solid"></div>

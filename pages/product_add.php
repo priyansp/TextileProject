@@ -6,7 +6,7 @@ if(!$user->checkAccess("product_add")){
 $db = DB::getInstance();
 $categories = $db->query_assoc("select * from category;");
 $categories = $categories->results();
-$vendors = $db->query_assoc("select * from vendors;");
+$vendors = $db->query_assoc("select * from vendors where type=1;");
 $vendors = $vendors->results();
 ?>
 <div class="right_col" role="main">

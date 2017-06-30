@@ -4,8 +4,8 @@ if(!$user->checkAccess("lot_view")){
     redirect::to("login.php");
 }
 $is_present=false;
+$db = DB::getInstance();
 if(input::exists()){
-    $db = DB::getInstance();
     $lot_no=input::get("Lot-No");
     $query="select * from lot_details where lot_no=${lot_no};";
     $query_result = $db->query_assoc($query);
@@ -31,10 +31,24 @@ if(input::exists()){
     }
     else{
         session::flash("lot_view_failed","Oops! The lot number has not been entried yet");
+        redirect::to('lot_view.php');
     }
-    
-
 }
+else{
+$query="select * from lot_details order by lot_id desc;";
+$query_result = $db->query_assoc($query)->results();
+$table_body="";
+    for($i=0,$sno=1;$i<count($query_result);$i++,$sno++){
+        $lot_no=$query_result[$i]['lot_no'];
+        $weight=$query_result[$i]['weight'];
+        $date=$query_result[$i]['date'];
+        $party=$query_result[$i]['party_name'];
+        $shade=$query_result[$i]['shade_name'];
+        $table_body.="<tr><td>${sno}</td><td>${lot_no}</td><td>${party}</td><td>${shade}</td><td>${weight}</td><td>${date}</td>";
+        $table_body.="</tr>";
+    }
+}
+
 ?>
 <div class="right_col" role="main">
    <div class="row">
@@ -244,7 +258,39 @@ if(input::exists()){
                 </div>
               </div>
             </div>
-            <?php } ?>
+            <?php } else { ?>
+    <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                   <div class="col-md-6">
+                        <h2>All Lots</h2>   
+                   </div>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content" id="table_div">
+                    <table id="datatable" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>S.No</th>
+                          <th>Lot No</th>
+                          <th>Party</th>
+                          <th>Shade</th>
+                          <th>Weight</th>
+                          <th>Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <?php
+                            echo $table_body;
+                          ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+    </div>
+    <?php } ?>
 </div>
 <?php
 require '../includes/footer.php';

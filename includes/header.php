@@ -44,6 +44,7 @@ if(!$user->isLoggedIn()){
     <link href="../build/css/custom.min.css" rel="stylesheet">
     <!-- CSS by Shanmu -->
     <link href="../css/my.css" rel="stylesheet">
+    
   </head>
 
   <body class="nav-md">

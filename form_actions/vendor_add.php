@@ -16,7 +16,8 @@ if(input::exists()){
         'email' => input::get('Email'),
         'address' => input::get('Address'),
         'details' => input::get('Details'),
-        'gstn'=>input::get('GSTN')
+        'gstn'=>input::get('GSTN'),
+        'type'=>input::get('Type'),
         ))){
             session::flash('vendor_add_success','Vendor has been added successfully');
             redirect::to('../pages/vendor_add.php');

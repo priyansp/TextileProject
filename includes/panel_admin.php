@@ -14,6 +14,7 @@
                     <ul class="nav child_menu">
                       <li><a href="vendor_add.php">Add Vendor</a></li>
                       <li><a href="vendor_edit.php">Edit Vendor</a></li>
+                      <li><a href="vendor_view.php">View Vendors</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-edit"></i>Product Management<span class="fa fa-chevron-down"></span></a>
@@ -27,6 +28,14 @@
                     <ul class="nav child_menu">
                       <li><a href="lot_add.php">Add Lot</a></li>
                       <li><a href="lot_view.php">View Lot</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-edit"></i>Ledger<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="ledger_purchase_entry.php">Purchase Entry</a></li>
+                      <li><a href="ledger_sale_entry.php">Sale Entry</a></li>
+                      <li><a href="ledger_purchase.php">Purchase Ledger</a></li>
+                      <li><a href="ledger_sale.php">Sale Ledger</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-edit"></i>User Management<span class="fa fa-chevron-down"></span></a>

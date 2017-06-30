@@ -41,7 +41,7 @@ if(!$user->checkAccess("vendor_add")){
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Phone">Phone<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="Phone" name="Phone" required="required" class="form-control col-md-7 col-xs-12" pattern="[0-9]*" title="Enter 10 Digit phone Number">
+                          <input type="text" id="Phone" name="Phone" required="required" class="form-control col-md-7 col-xs-12" pattern="[0-9]*">
                         </div>
                       </div>
                       <div class="form-group">
@@ -69,7 +69,18 @@ if(!$user->checkAccess("vendor_add")){
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="GSTN" name="GSTN" class="form-control col-md-7 col-xs-12">
                         </div>
-                      </div>                      
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="GSTN">Type<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control" name="Type" required>
+                               <option value='not_selected' selected>Choose Vendor Type</option>
+                               <option value='1'>Purchase</option>
+                               <option value='2'>Sales</option>
+                          </select>
+                        </div>
+                      </div>                                            
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
